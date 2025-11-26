@@ -31,7 +31,7 @@ def index(request):
 
     return render(
         request,
-        'catalog/index.html',
+        'index.html',
         context={
             'num_books': num_books,
             'num_instances': num_instances,
@@ -45,6 +45,17 @@ def index(request):
 
 class BookListView(generic.ListView):
     model = Book
+    paginate_by = 2
     # context_object_name = 'my_book_list'
     # queryset = Book.objects.filter(title__icontains='war')[:5]
     template_name = 'catalog/book_list.html'
+
+class BookDetailView(generic.DetailView):
+    model = Book
+
+class AuthorListView(generic.ListView):
+    model = Author
+    paginate_by = 2
+
+class AuthorDetailView(generic.DetailView):
+    model = Author
