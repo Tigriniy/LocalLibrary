@@ -6,16 +6,28 @@ def index(request):
     """
     Функция отображения для домашней страницы сайта.
     """
-    # Генерация "количеств" некоторых главных объектов
+    #Генерация "количеств" некоторых главных объектов
     num_books = Book.objects.all().count()
     num_instances = BookInstance.objects.all().count()
     # Доступные книги (статус = 'a')
     num_instances_available = BookInstance.objects.filter(status__exact='a').count()
     num_authors = Author.objects.count()
 
-    # Количество посещений этого view, подсчитанное в переменной session
+    #Количество посещений этого view, подсчитанное в переменной session
     num_visits = request.session.get('num_visits', 0)
     request.session['num_visits'] = num_visits + 1
+
+    #количество жанров
+    num_genres = Genre.objects.count()
+
+    #количество книг, содержащих слово какое-то в названии, например, 'the' (без учета регистра
+    num_books_with_word = Book.objects.filter(title__icontains='the').count()
+
+
+
+
+
+
 
     return render(
         request,
@@ -26,6 +38,8 @@ def index(request):
             'num_instances_available': num_instances_available,
             'num_authors': num_authors,
             'num_visits': num_visits,
+            'num_genres': num_genres,
+            'num_books_with_word': num_books_with_word,
         }
     )
 
