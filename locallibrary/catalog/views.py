@@ -11,11 +11,6 @@ def index(request):
     num_instances = BookInstance.objects.all().count()
     # Доступные книги (статус = 'a')
     num_instances_available = BookInstance.objects.filter(status__exact='a').count()
-    num_authors = Author.objects.count()
-
-    #Количество посещений этого view, подсчитанное в переменной session
-    num_visits = request.session.get('num_visits', 0)
-    request.session['num_visits'] = num_visits + 1
 
     #количество жанров
     num_genres = Genre.objects.count()
