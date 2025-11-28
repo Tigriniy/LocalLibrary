@@ -20,9 +20,19 @@ class BookAdmin(admin.ModelAdmin):
     inlines = [BooksInstanceInline]
 
 
+from django.contrib import admin
+from .models import Author, Genre, Book, BookInstance
+
+
+# Ваш существующий код для BookAdmin, AuthorAdmin и т.д.
+
+from django.contrib import admin
+from .models import Author, Genre, Book, BookInstance
+
+
 @admin.register(BookInstance)
 class BookInstanceAdmin(admin.ModelAdmin):
-    list_display = ('book', 'status', 'due_back')
+    list_display = ('book', 'status', 'borrower', 'due_back', 'id')
     list_filter = ('status', 'due_back')
 
     fieldsets = (
@@ -30,9 +40,10 @@ class BookInstanceAdmin(admin.ModelAdmin):
             'fields': ('book', 'imprint', 'id')
         }),
         ('Availability', {
-            'fields': ('status', 'due_back')
+            'fields': ('status', 'due_back', 'borrower')
         }),
     )
+
 
 
 admin.site.register(Author, AuthorAdmin)
