@@ -1,8 +1,16 @@
 from django import forms
 
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
+
+
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 import datetime #for checking renewal date range.
+
+from django.forms import ModelForm
+from .models import Book
+
 
 
 
@@ -25,3 +33,26 @@ class RenewBookForm(forms.Form):
 
         # Remember to always return the cleaned data.
         return data
+
+class BookForm(forms.ModelForm):
+    class Meta:
+        model = Book
+        fields = ['title', 'author', 'summary', 'isbn', 'genre']
+
+
+class BookCreate(CreateView):
+    model = Book
+    form_class = BookForm  # Используем нашу форму
+    template_name = 'catalog/book_form.html'
+
+
+class BookUpdate(UpdateView):
+    model = Book
+    form_class = BookForm
+    template_name = 'catalog/book_form.html'
+
+
+class BookDelete(DeleteView):
+    model = Book
+    template_name = 'catalog/book_confirm_delete.html'
+    success_url = reverse_lazy('books')

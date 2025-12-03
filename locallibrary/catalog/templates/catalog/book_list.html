@@ -2,6 +2,12 @@
 
 {% block content %}
   <h1>Book List</h1>
+  {% if user.is_authenticated and user.is_staff %}
+  <div style="margin-bottom: 20px">
+      <a href="{% url 'book-create' %}" class="btn btn-success">Добавить новую книгу</a>
+  </div>
+  {% endif %}
+
   {% if book_list %}
   <ul>
     {% for book in book_list %}
